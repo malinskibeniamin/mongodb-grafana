@@ -409,6 +409,11 @@ function logRequest(body, type) {
 }
 
 function wrapWithInQuery(values) {
+  if (values[0] === 'true' || values[0] === 'false') {
+    const valueAsBoolean = (values[0] === 'true');
+    return { $in: [valueAsBoolean] };
+  }
+
   return { $in: values };
 }
 
