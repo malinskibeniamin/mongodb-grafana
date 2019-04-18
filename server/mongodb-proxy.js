@@ -429,6 +429,14 @@ function extractMultipleValues(aggregation) {
   return aggregation.replace(/["{}"]/g, '').split(',');
 }
 
+function isAddFieldsAggregation(aggregation) {
+  return aggregation.hasOwnProperty('$addFields');
+}
+
+function isConcatAggregation(aggregation) {
+  return aggregation.hasOwnProperty('$concat');
+}
+
 function manipulateQuery(query) {
   let parsedQuery = JSON.parse(JSON.stringify(query));
 
@@ -445,6 +453,13 @@ function manipulateQuery(query) {
           matchAggregation[key] = wrapWithInQuery(values);
         }
       })
+    } else if (isAddFieldsAggregation(aggregation)) {
+      let addFieldsAggregation = aggregation['$addFields'];
+      let namesWithRankAggregation = addFieldsAggregation.namesWithRank;
+      if (namesWithRankAggregation && isConcatAggregation(namesWithRankAggregation)) {
+        let concatAggregation = namesWithRankAggregation['$concat'];
+        aggregation['$addFields'].namesWithRank['$concat'] = JSON.parse(JSON.stringify(concatAggregation).replace('undefined', '$toString'));
+      }
     }
   })
 
