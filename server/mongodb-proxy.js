@@ -441,6 +441,7 @@ function manipulateQuery(query) {
   let parsedQuery = JSON.parse(JSON.stringify(query));
 
   parsedQuery.forEach(aggregation => {
+
     if (isMatchAggregation(aggregation)) {
       let matchAggregation = aggregation['$match'];
 

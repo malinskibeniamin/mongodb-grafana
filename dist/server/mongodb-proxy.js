@@ -460,21 +460,6 @@ function manipulateQuery(query) {
         let concatAggregation = namesWithRankAggregation['$concat'];
         aggregation['$addFields'].namesWithRank['$concat'] = JSON.parse(JSON.stringify(concatAggregation).replace('undefined', '$toString'));
       }
-      // let stringified = JSON.stringify(namesWithRankAggregation).replace('undefined', '$toString');
-      // console.log(stringified);
-      // if (isConcatAggregation(namesWithRankAggregation)) {
-      //   let concatAggregation = namesWithRankAggregation['$concat'];
-
-      //   console.log('concat: ', concatAggregation);
-
-      //   Object.entries(concatAggregation).forEach(([key, value]) => {
-      //     const stringifiedAggregation = JSON.stringify(value);
-
-      //     const values = extractMultipleValues(stringifiedAggregation);
-
-      //     console.log(values);
-      //   })
-      // }
     }
   })
 
